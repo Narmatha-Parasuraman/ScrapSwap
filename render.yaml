@@ -7,11 +7,11 @@ services:
     buildCommand: npm install
     startCommand: npm start
     envVars:
-      # node:sqlite (used in server/src/db.js) requires Node >=22.5 -- Render's
-      # default runtime is older, which was crashing the process on import
-      # and causing a 502 at the edge proxy.
+      # node:sqlite (used in server/src/db.js) exists behind an
+      # --experimental-sqlite flag on Node 22.x -- it's unflagged only from
+      # Node 24 onward, which is also what's been used for local testing.
       - key: NODE_VERSION
-        value: 22.9.0
+        value: 24.19.0
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
