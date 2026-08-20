@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: scrapswap-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      # Update to the real GitHub Pages origin if it ever differs from this
+      # (e.g. a custom domain) -- must match exactly, no trailing slash/path.
+      - key: CORS_ORIGIN
+        value: https://narmatha-parasuraman.github.io
+      # NOTE: the free plan has no persistent disk, so this SQLite file lives
+      # on ephemeral storage and resets on every redeploy/restart. Fine for a
+      # v1 demo; move to a paid plan + disk (or a hosted Postgres) before
+      # this holds real user data.
