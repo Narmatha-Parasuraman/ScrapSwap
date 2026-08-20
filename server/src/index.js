@@ -31,7 +31,9 @@ app.use((req, res) => {
 // traces to the client outside of NODE_ENV=production.
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ error: config.isProduction ? 'internal server error' : err.message });
+  const status = err.status || err.statusCode || 500;
+  const message = status < 500 || !config.isProduction ? err.message : 'internal server error';
+  res.status(status).json({ error: message });
 });
 
 const httpServer = createServer(app);
